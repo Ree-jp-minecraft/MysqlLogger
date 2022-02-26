@@ -1,5 +1,5 @@
 {
-  "name": "ree_jp/template",
+  "name": "ree_jp/mysql_logger",
   "description": "PocketMine-MP plugin",
   "minimum-stability": "stable",
   "license": "unlicense",
@@ -10,11 +10,17 @@
     }
   ],
   "require": {
+    "pocketmine/pocketmine-mp": "4.2.*",
+    "sof3/libasynql": "4.0.*"
   },
   "repositories": [
     {
       "type": "vcs",
       "url": "https://github.com/pmmp/PocketMine-MP.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/poggit/libasynql.git"
     }
   ]
 }
