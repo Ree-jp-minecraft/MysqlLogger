@@ -53,7 +53,7 @@ class Repository
 
         $csv = fopen($this->csvPath, "w");
         foreach ($this->logs as $log) {
-            fputcsv($csv, $log, "*;*");
+            fputcsv($csv, $log, ";");
         }
         fclose($csv);
         $this->sendSql();
