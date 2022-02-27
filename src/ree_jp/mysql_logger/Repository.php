@@ -36,6 +36,7 @@ class Repository
                 $this->enQueue();
             }
         ), 20 * $this->config->get("save-interval"));
+        $this->sendSql();
     }
 
     public function addBlockLog(array $log): void
