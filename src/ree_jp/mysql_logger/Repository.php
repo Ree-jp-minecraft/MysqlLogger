@@ -52,6 +52,7 @@ class Repository
         }
 
         $csv = fopen($this->csvPath, "w");
+        var_dump($csv);
         foreach ($this->logs as $log) {
             fputcsv($csv, $log);
         }
