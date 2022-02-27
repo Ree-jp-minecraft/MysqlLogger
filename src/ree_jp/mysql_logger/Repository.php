@@ -41,8 +41,8 @@ class Repository
 
     public function addBlockLog(array $log): void
     {
-        $log["server_id"] = $this->serverId;
-        $log["time"] = date(self::DATE_FORMAT);
+        $log[1] = $this->serverId;
+        $log[10] = date(self::DATE_FORMAT);
         $this->logs[] = $log;
     }
 
@@ -57,6 +57,7 @@ class Repository
             fputcsv($csv, $log, ";");
         }
         fclose($csv);
+        $this->logs[] = [];
         $this->sendSql();
     }
 
