@@ -52,21 +52,22 @@ class Repository
         }
 
         $csv = fopen($this->csvPath, "w");
-        var_dump($csv);
         foreach ($this->logs as $log) {
-            $a = fputcsv($csv, $log);
-            var_dump($a);
+            fputcsv($csv, $log);
         }
-        $finish = fclose($csv);
-        var_dump($finish);
+        fclose($csv);
+        $this->logs = [];
         $this->sendSql();
     }
 
     public function sendSql(): void
     {
         if (file_exists($this->csvPath)) {
-            $this->db->executeGeneric("mysql_logger.send", ["filePath" => $this->csvPath]);
-            unlink($this->csvPath);
+            $this->db->executeGeneric("mysql_logger.send", ["filePath" => $this->csvPath],
+                function (): void {
+                    unlink($this->csvPath);
+                }
+            );
         }
     }
 
