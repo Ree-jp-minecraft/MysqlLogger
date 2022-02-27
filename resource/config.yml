@@ -1,0 +1,10 @@
+server-id: "server_1"
+save-interval: 60
+database:
+  type: mysql
+  mysql:
+    host: 127.0.0.1
+    username: root
+    password: ""
+    schema: your_schema
+  worker-limit: 5

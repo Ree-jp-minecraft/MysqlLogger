@@ -1,6 +1,6 @@
 <?php
 
-namespace ree_jp\template;
+namespace ree_jp\mysql_logger;
 
 use pocketmine\plugin\PluginBase;
 
