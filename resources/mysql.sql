@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS BLOCK_LOG
 -- #    }
 -- #    { send
 -- #    :filePath string
-LOAD DATA LOCAL INFILE ':filePath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY '*;*';
+LOAD DATA LOCAL INFILE :filePath INTO TABLE BLOCK_LOG FIELDS TERMINATED BY '*;*';
 -- #    }
 -- #}
