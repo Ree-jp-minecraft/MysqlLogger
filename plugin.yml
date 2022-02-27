@@ -1,5 +1,5 @@
-name: name
+name: MysqlLogger
 api: 4.0.0
-main: ree_jp\template\Plugin
+main: ree_jp\mysql_logger\MysqlLoggerPlugin
 version: 1.0.0
 author: ree-jp
