@@ -15,8 +15,8 @@ class BulkRepo extends Repository
         $p = $ev->getPlayer();
         $pos = $ev->getBlock()->getPosition();
         $time = date(self::DATE_FORMAT);
-        $string = "( $action, {$p->getXuid()}, {$pos->getFloorX()}, {$pos->getFloorY()}, {$pos->getFloorZ()}, {$pos->getWorld()->getFolderName()}," .
-            "{$ev->getItem()->getName()}, {$ev->getBlock()->getName()}, $this->serverId, $time)";
+        $string = "( '$action', {$p->getXuid()}, {$pos->getFloorX()}, {$pos->getFloorY()}, {$pos->getFloorZ()}, '{$pos->getWorld()->getFolderName()}'," .
+            "'{$ev->getItem()->getName()}', '{$ev->getBlock()->getName()}', '$this->serverId', '$time')";
 
         if (!empty($this->query)) {
             $this->query .= ", ";
