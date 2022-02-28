@@ -41,8 +41,8 @@ class Repository
 
     public function addBlockLog(array $log): void
     {
-        $log[1] = $this->serverId;
-        $log[10] = date(self::DATE_FORMAT);
+        $log[10] = $this->serverId;
+        $log[11] = date(self::DATE_FORMAT);
         $this->logs[] = $log;
     }
 

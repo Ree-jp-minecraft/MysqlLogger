@@ -38,8 +38,8 @@ class EventListener implements Listener
         $log[6] = $pos->getFloorZ();
         $log[7] = $pos->getWorld()->getFolderName();
 
-        $log[8] = json_encode($ev->getItem());
-        $log[9] = json_encode($ev->getBlock());
+        $log[8] = $ev->getItem()->getName();
+        $log[9] = $ev->getBlock()->getName();
         $this->repo->addBlockLog($log);
     }
 }
