@@ -28,7 +28,9 @@ class Repository
     {
         $this->csvPath = $owner->getDataFolder();
         $this->serverId = $config->get("server-id");
-        mkdir($this->csvPath . "processing/");
+        if (!file_exists($this->csvPath . "processing/")) {
+            mkdir($this->csvPath . "processing/");
+        }
         $this->db = libasynql::create($owner, $config->get("database"), [
             "mysql" => "mysql.sql",
         ]);
