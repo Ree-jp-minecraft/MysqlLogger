@@ -71,9 +71,7 @@ class Repository
         foreach (glob($this->csvPath . "*.csv") as $filePath) {
             $afterPath = $this->csvPath . "processing/" . basename($filePath);
             rename($filePath, $afterPath);
-            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$afterPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';' " .
-                "(@v1, @v2, @v3, @v4, @v5, @v6, @v7, @v8, @v9, @v10) SET action = @v1 AND xuid = @v2 AND x = @v3 AND y = @v4 AND z = @v5 AND " .
-                "world = @v6 AND item = @v7 AND block = @v8 AND server_id = @v9 AND time = STR_TO_DATE( @v10, '%Y-%m-%d %H:%i:%s');"],
+            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$afterPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';"],
                 [[]], [SqlThread::MODE_GENERIC],
                 function () use ($afterPath): void {
                     unlink($afterPath);
