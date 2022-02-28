@@ -22,6 +22,9 @@ class EventListener implements Listener
         $this->repo->addBlockLog($ev, "break");
     }
 
+    /**
+     * @priority MONITOR
+     */
     public function onPlace(BlockPlaceEvent $ev): void
     {
         if ($ev->isCancelled()) return;
