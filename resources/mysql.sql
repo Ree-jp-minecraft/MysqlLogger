@@ -29,12 +29,13 @@ WHERE action = ''
   AND block = ''
   AND server_id = '';
 -- #        }
--- #        { get
--- #        :x int
--- #        :y int
--- #        :z int
--- #        :world string
--- #        :server_id string
+-- #    }
+-- #    { get
+-- #      :x int
+-- #      :y int
+-- #      :z int
+-- #      :world string
+-- #      :server_id string
 SELECT *
 FROM BLOCK_LOG
 WHERE x = :x
@@ -43,6 +44,5 @@ WHERE x = :x
   AND world = :world
   AND server_id = :server_id
 ORDER BY time DESC;
--- #        }
 -- #    }
 -- #}
