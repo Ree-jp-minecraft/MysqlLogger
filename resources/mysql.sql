@@ -16,5 +16,18 @@ CREATE TABLE IF NOT EXISTS BLOCK_LOG
     time      DATETIME    NOT NULL
 );
 -- #        }
+-- #        { clear
+DELETE
+FROM BLOCK_LOG
+WHERE action = ''
+  AND xuid = 0
+  AND x = 0
+  AND y = 0
+  AND z = 0
+  AND world = ''
+  AND item = ''
+  AND block = ''
+  AND server_id = '';
+-- #        }
 -- #    }
 -- #}
