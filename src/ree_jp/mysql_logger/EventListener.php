@@ -29,17 +29,17 @@ class EventListener implements Listener
 
     private function addBlockLog(BlockBreakEvent|BlockPlaceEvent $ev, string $action): void
     {
-        $log[2] = $action;
-        $log[3] = $ev->getPlayer()->getXuid();
+        $log[] = $action;
+        $log[] = $ev->getPlayer()->getXuid();
 
         $pos = $ev->getBlock()->getPosition();
-        $log[4] = $pos->getFloorX();
-        $log[5] = $pos->getFloorY();
-        $log[6] = $pos->getFloorZ();
-        $log[7] = $pos->getWorld()->getFolderName();
+        $log[] = $pos->getFloorX();
+        $log[] = $pos->getFloorY();
+        $log[] = $pos->getFloorZ();
+        $log[] = $pos->getWorld()->getFolderName();
 
-        $log[8] = $ev->getItem()->getName();
-        $log[9] = $ev->getBlock()->getName();
+        $log[] = $ev->getItem()->getName();
+        $log[] = $ev->getBlock()->getName();
         $this->repo->addBlockLog($log);
     }
 }

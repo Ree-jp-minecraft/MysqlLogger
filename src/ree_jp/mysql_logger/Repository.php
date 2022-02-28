@@ -45,8 +45,8 @@ class Repository
 
     public function addBlockLog(array $log): void
     {
-        $log[10] = $this->serverId;
-        $log[11] = date(self::DATE_FORMAT);
+        $log[] = $this->serverId;
+        $log[] = date(self::DATE_FORMAT);
         $this->logs[] = $log;
     }
 
@@ -70,7 +70,8 @@ class Repository
         foreach (glob($this->csvPath . "*.csv") as $filePath) {
             $afterPath = $this->csvPath . "processing/" . basename($filePath);
             rename($filePath, $afterPath);
-            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$afterPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';"], [[]], [SqlThread::MODE_GENERIC],
+            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$afterPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';' " .
+                "(@v1, @v2, @v3, @v4, @v5, @v6, @v7, @v8, @v9, @v10); SET time = STR_TO_DATE( @v10, '%Y-%m-%d %H:%i:%s');"], [[]], [SqlThread::MODE_GENERIC],
                 function () use ($afterPath): void {
                     unlink($afterPath);
                 }, null);
