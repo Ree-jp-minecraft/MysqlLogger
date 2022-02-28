@@ -57,14 +57,14 @@ class Repository
             fputcsv($csv, $log, ";");
         }
         fclose($csv);
-        $this->logs[] = [];
+        $this->logs = [];
         $this->sendSql();
     }
 
     public function sendSql(): void
     {
         if (file_exists($this->csvPath)) {
-            $this->db->executeGeneric("mysql_logger.send", ["filePath" => "'/home/container/plugin_data/MysqlLogger/temp.csv'"],
+            $this->db->executeGeneric("mysql_logger.send", ["filePath" => "'//home//container//plugin_data//MysqlLogger//temp.csv'"],
                 function (): void {
                     unlink($this->csvPath);
                 }
