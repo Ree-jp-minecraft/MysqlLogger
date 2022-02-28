@@ -2,12 +2,14 @@
 
 namespace ree_jp\mysql_logger\sql;
 
+use Closure;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\scheduler\TaskHandler;
 use pocketmine\utils\Config;
+use pocketmine\world\Position;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
 
@@ -39,6 +41,12 @@ abstract class Repository
     abstract public function enQueue(): void;
 
     abstract public function sendSql(): void;
+
+    public function getLog(Position $pos, Closure $func, ?Closure $failure): void
+    {
+        $this->db->executeSelect("mysql_logger.get", ["x" => $pos->getFloorX(), "y" => $pos->getFloorY(), "z" => $pos->getFloorZ(),
+            "world" => $pos->getWorld()->getFolderName(), "server_id" => $this->serverId], $func, $failure);
+    }
 
     public function close(): void
     {

@@ -19,7 +19,7 @@ class EventListener implements Listener
     public function onBreak(BlockBreakEvent $ev): void
     {
         if ($ev->isCancelled()) return;
-        $this->repo->addBlockLog($ev, "break");
+        $this->repo->addBlockLog($ev, BlockLog::ACTION_BREAK);
     }
 
     /**
@@ -28,6 +28,6 @@ class EventListener implements Listener
     public function onPlace(BlockPlaceEvent $ev): void
     {
         if ($ev->isCancelled()) return;
-        $this->repo->addBlockLog($ev, "place");
+        $this->repo->addBlockLog($ev, BlockLog::ACTION_PLACE);
     }
 }

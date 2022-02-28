@@ -29,5 +29,19 @@ WHERE action = ''
   AND block = ''
   AND server_id = '';
 -- #        }
+-- #        { get
+-- #        :x int
+-- #        :y int
+-- #        :z int
+-- #        :world string
+-- #        :server_id string
+SELECT *
+FROM BLOCK_LOG
+WHERE x = :x
+  AND y = :y
+  AND z = :z
+  AND world = :world
+  AND server_id = :server_id;
+-- #        }
 -- #    }
 -- #}
