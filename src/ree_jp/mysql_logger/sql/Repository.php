@@ -26,7 +26,6 @@ abstract class Repository
             "mysql" => "mysql.sql",
         ]);
         $this->db->executeInsert("mysql_logger.init.block_log");
-        $this->db->executeInsert("mysql_logger.init.clear");
         $this->task = $owner->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
                 $this->enQueue();

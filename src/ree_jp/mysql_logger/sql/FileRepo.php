@@ -23,6 +23,7 @@ class FileRepo extends Repository
             mkdir($this->path . "processing/");
         }
         parent::__construct($owner, $config);
+        $this->db->executeInsert("mysql_logger.init.clear");
     }
 
     public function addBlockLog(BlockBreakEvent|BlockPlaceEvent $ev, string $action): void
