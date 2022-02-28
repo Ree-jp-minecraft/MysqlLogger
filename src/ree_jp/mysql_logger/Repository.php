@@ -56,7 +56,7 @@ class Repository
             return;
         }
 
-        $csv = fopen($this->csvPath . date(self::DATE_FORMAT), "w");
+        $csv = fopen($this->csvPath . ".csv" . date(self::DATE_FORMAT), "w");
         foreach ($this->logs as $log) {
             fputcsv($csv, $log, ";");
         }
