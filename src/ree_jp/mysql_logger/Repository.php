@@ -8,6 +8,7 @@ use pocketmine\scheduler\TaskHandler;
 use pocketmine\utils\Config;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
+use poggit\libasynql\SqlThread;
 
 class Repository
 {
@@ -25,23 +26,28 @@ class Repository
 
     public function __construct(PluginBase $owner, private Config $config)
     {
-        $this->csvPath = $owner->getDataFolder() . "temp.csv";
+        $this->csvPath = $owner->getDataFolder();
         $this->serverId = $config->get("server-id");
+        if (!file_exists($this->csvPath . "processing/")) {
+            mkdir($this->csvPath . "processing/");
+        }
         $this->db = libasynql::create($owner, $config->get("database"), [
             "mysql" => "mysql.sql",
         ]);
         $this->db->executeInsert("mysql_logger.init.block_log");
+        $this->db->executeInsert("mysql_logger.init.clear");
         $this->task = $owner->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
                 $this->enQueue();
             }
         ), 20 * $this->config->get("save-interval"));
+        $this->sendSql();
     }
 
     public function addBlockLog(array $log): void
     {
-        $log["server_id"] = $this->serverId;
-        $log["time"] = date(self::DATE_FORMAT);
+        $log[] = $this->serverId;
+        $log[] = date(self::DATE_FORMAT);
         $this->logs[] = $log;
     }
 
@@ -51,22 +57,25 @@ class Repository
             return;
         }
 
-        $csv = fopen($this->csvPath, "w");
+        $csv = fopen($this->csvPath . time() . ".csv", "w");
         foreach ($this->logs as $log) {
             fputcsv($csv, $log, ";");
         }
         fclose($csv);
+        $this->logs = [];
         $this->sendSql();
     }
 
     public function sendSql(): void
     {
-        if (file_exists($this->csvPath)) {
-            $this->db->executeGeneric("mysql_logger.send", ["filePath" => "'" . $this->csvPath . "'"],
-                function (): void {
-                    unlink($this->csvPath);
-                }
-            );
+        foreach (glob($this->csvPath . "*.csv") as $filePath) {
+            $afterPath = $this->csvPath . "processing/" . basename($filePath);
+            rename($filePath, $afterPath);
+            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$afterPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';"],
+                [[]], [SqlThread::MODE_GENERIC],
+                function () use ($afterPath): void {
+                    unlink($afterPath);
+                }, null);
         }
     }
 

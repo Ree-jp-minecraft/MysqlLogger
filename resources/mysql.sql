@@ -4,21 +4,30 @@
 -- #        { block_log
 CREATE TABLE IF NOT EXISTS BLOCK_LOG
 (
-    server_id VARCHAR(9)  NOT NULL,
     action    VARCHAR(9)  NOT NULL,
     xuid      BIGINT      NOT NULL,
     x         BIGINT      NOT NULL,
     y         BIGINT      NOT NULL,
     z         BIGINT      NOT NULL,
     world     VARCHAR(99) NOT NULL,
-    item      JSON        NOT NULL,
-    block     JSON        NOT NULL,
+    item      VARCHAR(99) NOT NULL,
+    block     VARCHAR(99) NOT NULL,
+    server_id VARCHAR(9)  NOT NULL,
     time      DATETIME    NOT NULL
 );
 -- #        }
--- #    }
--- #    { send
--- #    :filePath string
-LOAD DATA LOCAL INFILE :filePath INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';
+-- #        { clear
+DELETE
+FROM BLOCK_LOG
+WHERE action = ''
+  AND xuid = 0
+  AND x = 0
+  AND y = 0
+  AND z = 0
+  AND world = ''
+  AND item = ''
+  AND block = ''
+  AND server_id = '';
+-- #        }
 -- #    }
 -- #}
