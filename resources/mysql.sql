@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS BLOCK_LOG
 -- #        }
 -- #    }
 -- #    { send
-LOAD DATA LOCAL INFILE '/home/container/plugin_data/MysqlLogger/temp.csv' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';
+-- #    :filePath string
+LOAD DATA LOCAL INFILE :filePath INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';
 -- #    }
 -- #}

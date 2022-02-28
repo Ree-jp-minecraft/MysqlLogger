@@ -64,7 +64,7 @@ class Repository
     public function sendSql(): void
     {
         if (file_exists($this->csvPath)) {
-            $this->db->executeGeneric("mysql_logger.send", ["filePath" => "'" . $this->csvPath . "'"],
+            $this->db->executeGeneric("mysql_logger.send", ["filePath" => "'/home/container/plugin_data/MysqlLogger/temp.csv'"],
                 function (): void {
                     unlink($this->csvPath);
                 }
