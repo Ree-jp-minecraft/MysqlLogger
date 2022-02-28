@@ -26,7 +26,7 @@ class Repository
 
     public function __construct(PluginBase $owner, private Config $config)
     {
-        $this->csvPath = $owner->getDataFolder() . "temp.csv";
+        $this->csvPath = $owner->getDataFolder();
         $this->serverId = $config->get("server-id");
         $this->db = libasynql::create($owner, $config->get("database"), [
             "mysql" => "mysql.sql",
@@ -53,7 +53,7 @@ class Repository
             return;
         }
 
-        $csv = fopen($this->csvPath, "w");
+        $csv = fopen($this->csvPath . date(self::DATE_FORMAT), "w");
         foreach ($this->logs as $log) {
             fputcsv($csv, $log, ";");
         }
@@ -64,10 +64,12 @@ class Repository
 
     public function sendSql(): void
     {
-        if (file_exists($this->csvPath)) {
-            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$this->csvPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';"], [], [SqlThread::MODE_GENERIC],
-                function (): void {
-                    unlink($this->csvPath);
+        foreach (glob($this->csvPath . "*.csv") as $filePath) {
+            $afterPath = $this->csvPath . "processing/" . basename($filePath);
+            rename($filePath, $afterPath);
+            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$afterPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';"], [], [SqlThread::MODE_INSERT],
+                function () use ($afterPath): void {
+                    unlink($afterPath);
                 }, null);
         }
     }
