@@ -41,7 +41,8 @@ WHERE x = :x
   AND y = :y
   AND z = :z
   AND world = :world
-  AND server_id = :server_id;
+  AND server_id = :server_id
+ORDER BY time DESC;
 -- #        }
 -- #    }
 -- #}
