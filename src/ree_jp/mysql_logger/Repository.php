@@ -8,6 +8,7 @@ use pocketmine\scheduler\TaskHandler;
 use pocketmine\utils\Config;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
+use poggit\libasynql\SqlThread;
 
 class Repository
 {
@@ -64,11 +65,10 @@ class Repository
     public function sendSql(): void
     {
         if (file_exists($this->csvPath)) {
-            $this->db->executeGeneric("mysql_logger.send", ["filePath" => "'//home//container//plugin_data//MysqlLogger//temp.csv'"],
+            $this->db->executeImplRaw(["LOAD DATA LOCAL INFILE '$this->csvPath' INTO TABLE BLOCK_LOG FIELDS TERMINATED BY ';';"], [], [SqlThread::MODE_GENERIC],
                 function (): void {
                     unlink($this->csvPath);
-                }
-            );
+                }, null);
         }
     }
 
