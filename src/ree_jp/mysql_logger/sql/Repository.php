@@ -28,6 +28,9 @@ abstract class Repository
             "mysql" => "mysql.sql",
         ]);
         $this->db->executeInsert("mysql_logger.init.block_log");
+        $this->db->waitAll();
+        $this->db->executeGeneric("mysql_logger.init.delete", ["server_id" => $this->serverId,
+            "time" => date(self::DATE_FORMAT, strtotime($this->config->get("delete-day") . "ago"))]);
         $this->task = $owner->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
                 $this->enQueue();

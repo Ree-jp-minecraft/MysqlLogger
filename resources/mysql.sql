@@ -16,6 +16,14 @@ CREATE TABLE IF NOT EXISTS BLOCK_LOG
     time      DATETIME    NOT NULL
 );
 -- #        }
+-- #        { delete
+-- #          :server_id string
+-- #          :time string
+DELETE
+FROM BLOCK_LOG
+WHERE server_id = :server_id
+  AND time < :time;
+-- #        }
 -- #        { clear
 DELETE
 FROM BLOCK_LOG

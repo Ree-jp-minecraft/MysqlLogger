@@ -2,6 +2,8 @@
 # `file` has a bug that time is not recorded
 type: "bulk"
 
+delete-day: "5 day"
+
 server-id: "server_1"
 save-interval: 60
 database:
